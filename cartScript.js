@@ -1,10 +1,68 @@
 
+//For loading more devices from api
+var offsetCount = 0;
 
 window.addEvent('domready', function(){
 
+
   //call back function
+  this.imageCallback = function(data)
+  {
+    console.log(data);
+      if(data.image.text!= null)
+      {
+        //the devices image url
+        var aDeviceImage = data.image.text + '.thumbnail';
+        console.log(aDeviceImage);
+
+
+        //adding a new device to the grid
+        var anItem = new Element('div');
+        $(anItem).set('style', "background-image:url("+ aDeviceImage + ")");
+        $(anItem).set('class', 'item');
+
+
+        //Come back to this, adds Device name to image
+
+        //var deviceSpan = new Element('span');
+        //$(deviceSpan).set('text', data.description);
+        //$(deviceSpan).inject('anItem');
+        //console.log(deviceSpan);
+
+        //inject element
+        this.addDrag($(anItem));
+        $(anItem).inject("items",'bottom');
+
+      }
+        
+  }
+
   this.jsoncallback = function(data){
         console.log(data);
+        for(var i = 0; i < data.length; i++){
+          var apiID = data[i].topic.replace(/\s/g,"+");
+          console.log(apiID);
+          var apiGet = "http://www.ifixit.com/api/1.0/topic/" + apiID;
+          console.log(apiGet);
+          var myJSONP = new Request.JSONP({
+            url: apiGet,
+            callbackKey: 'imageCallback',
+            log: true,
+            data: {
+                jsonp: 'imageCallback'
+            },
+            onRequest: function(url){
+                // a script tag is created with a src attribute equal to url
+                
+
+            },
+            onComplete: function(data){
+                // the request was completed.
+                console.log(data);
+            }
+
+          }).send();
+        };
       };
 
   /*Trying the json loads here*/
@@ -22,8 +80,6 @@ window.addEvent('domready', function(){
     },
     onRequest: function(url){
         // a script tag is created with a src attribute equal to url
-        theURL = url;
-        console.log(theURL);
 
     },
     onComplete: function(data){
@@ -45,8 +101,13 @@ window.addEvent('domready', function(){
 
   };
 
-  /*add the cart and drag methods to all .item class*/
-  $$('.item').addEvent('mousedown', function(event){
+ 
+  this.addDrag($$('.item'));
+
+});
+/*add the cart and drag methods to argument*/
+var addDrag = function(theListener) {
+  theListener.addEvent('mousedown', function(event){
       event.stop();
 
       var device = this;
@@ -62,6 +123,7 @@ window.addEvent('domready', function(){
         onDrop: function(dragging, cart){
           dragging.destroy();
           if(cart != null){
+            console.log(cart);
             device.clone().inject(cart);
           cart.highlight('#7389AE', '#FFF');
 
@@ -82,8 +144,4 @@ window.addEvent('domready', function(){
       });
       drag.start(event);
   });
-
-  
-
-});
-  
+}

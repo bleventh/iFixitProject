@@ -1,7 +1,7 @@
 #items {
 	float: left;
 	border: 1px solid #F9F9F9;
-	width: 525px;
+	width: 1000px;
 }
 
 .item {
@@ -13,10 +13,10 @@
 	border-right: 2px solid #DDD;
 	cursor: move;
 	float: left;
-	height: 175px;
+	height: 90px;
 	margin: 10px;
 	position: relative;
-	width: 150px;
+	width: 120px;
 }
 	.item span {
 		bottom: 0;
@@ -34,6 +34,9 @@
 	float: right;
 	padding-bottom: 50px;
 	width: 195px;
+	position: fixed;
+	top: 10px;
+	right: 10px;
 }
 	#cart .info {
 		color: #444;
@@ -45,7 +48,7 @@
 		background-position: 50% -22px;
 		border-width: 1px;
 		cursor: default;
-		height: 85px;
+		height: 90px;
 		margin: 5px;
-		width: 85px;
+		width: 120px;
 	}
