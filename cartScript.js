@@ -26,7 +26,6 @@ var spy;
 var spyAct = function() {
       
       var min = $(window).getScrollSize().y - $(window).getSize().y -300; 
-      console.log(min);
       spy = new ScrollSpy({
         min: min,
         onEnter: function(position, enters) {
@@ -91,7 +90,6 @@ this.jsoncallback = function(data){
           
           
         };
-        console.log(limitValue);
         if(offsetMarker)
         {
           offsetCount = 70;
@@ -161,11 +159,26 @@ var addDrag = function(theListener) {
         onDrop: function(dragging, cart){
           dragging.destroy();
           if(cart != null){
-            device.clone().inject(cart);
+            var gearBagItems = $$(cart).getChildren()[0];
+            var deviceInBag = false;
+            
+            //Checks if device is already in the bag
+            for(var i = 0; i < gearBagItems.length; i++)
+            {
+              if(device.getProperty('style') == gearBagItems[i].getProperty('style'))
+              {
+                deviceInBag = true;
+              }
+            }
+            if(!deviceInBag)
+              {
+                device.clone().inject(cart);
+                //This is where the sql update occurs
+              }  
+            console.log($$(cart).getChildren()[0][1]);
           cart.highlight('#7389AE', '#FFF');
 
-          //This is where the sql update occurs
-          //Check to see if the cart has an item with same img
+          
           }
         },
         onEnter: function(dragging, cart){
