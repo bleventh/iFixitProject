@@ -1,8 +1,11 @@
 //For loading more devices from api
-var offsetCount = 0;
+
 var scrollSize = 0;
 var limitValue = 70;
+var offsetCount = 0;
 
+//Figure out how to set offset inbetween first spyact call and api call
+var offsetMarker = true;
 
 window.addEvent('domready', function(){
   
@@ -22,12 +25,15 @@ var spy;
 //Creates a new scrolling event and fires when minimum range is met
 var spyAct = function() {
       
-      var min = $(window).getScrollSize().y - $(window).getSize().y -150; 
+      var min = $(window).getScrollSize().y - $(window).getSize().y -300; 
       console.log(min);
       spy = new ScrollSpy({
         min: min,
-        onEnter: function() {
-          myJSONP();
+        onEnter: function(position, enters) {
+          if(enters == 1)
+           {
+             myJSONP();
+           }  
         }
       });
     };
@@ -86,9 +92,19 @@ this.jsoncallback = function(data){
           
         };
         console.log(limitValue);
+        if(offsetMarker)
+        {
+          offsetCount = 70;
+          offsetMarker = false;
+        }
+        else
+        {
+          offsetCount += limitValue;
+        }
         //Creates new instance of spy with a higher minimum range
+        
         spyAct();
-        offsetCount += 50;
+       
       };
 
   //Call back method to get images
