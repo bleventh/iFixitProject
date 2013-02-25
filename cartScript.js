@@ -1,65 +1,62 @@
-
 //For loading more devices from api
 var offsetCount = 0;
+var scrollSize = 0;
+var limitValue = 70;
+
 
 window.addEvent('domready', function(){
-
-
-  //call back function
- 
-
-
-
-  
-
   
   //makes initial JSONP request to the apis
   this.myJSONP();
   
-
-  //Dynamically create elements for prototyping
-  for(var i = 0; i < 10; i++)
-  {
-      var anItem = new Element('div');
-      $(anItem).set('class', 'item');
-       //anItem = $(anItem).clone().cloneEvents(methods);
-      $(anItem).inject("items",'bottom');
-
-  };
-
- 
+  //adds drag to first load
   this.addDrag($$('.item'));
+  
+  //lowers the limit on the jsonp api calls
+  //makes the page faster because its loading less on each event
+  limitValue = 20;
 
 });
+var spy;
+
+//Creates a new scrolling event and fires when minimum range is met
+var spyAct = function() {
+      
+      var min = $(window).getScrollSize().y - $(window).getSize().y -150; 
+      console.log(min);
+      spy = new ScrollSpy({
+        min: min,
+        onEnter: function() {
+          myJSONP();
+        }
+      });
+    };
 
 
+
+
+//JSONP call to get names of all devices
 var myJSONP = function(){ new Request.JSONP({
     url: 'http://www.ifixit.com/api/1.0/topics',
     callbackKey: 'jsoncallback',
     log: true,
     data: {
         offset: offsetCount,
-        limit: '200',
+        limit: limitValue,
         jsonp: 'jsoncallback'
     },
-    onRequest: function(url){
-        // a script tag is created with a src attribute equal to url
-
-    },
-    onComplete: function(data){
-        // the request was completed.
-
-    }
+    
 
 }).send();
 };
 
+//Call back method for myJSONP
 this.jsoncallback = function(data){
   for(var i = 0; i < data.length; i++){
     var apiID = data[i].topic.replace(/\s/g,"+");
 
     var apiGet = "http://www.ifixit.com/api/1.0/topic/" + apiID;
-    var myJSONP = new Request.JSONP({
+    var getImages = new Request.JSONP({
             url: apiGet,
             callbackKey: 'imageCallback',
             log: true,
@@ -85,10 +82,16 @@ this.jsoncallback = function(data){
 
           }).send();
           //Increments offset
-          offsetCount += 200;
+          
+          
         };
+        console.log(limitValue);
+        //Creates new instance of spy with a higher minimum range
+        spyAct();
+        offsetCount += 50;
       };
 
+  //Call back method to get images
  this.imageCallback = function(data)
   {
       if(data[0] == "error")
@@ -115,7 +118,7 @@ this.jsoncallback = function(data){
         //$(deviceSpan).inject('anItem');
         //console.log(deviceSpan);
 
-        //inject element
+        //give element drag capability and inject element 
         this.addDrag($(anItem));
         $(anItem).inject("items",'bottom');
 
@@ -124,7 +127,7 @@ this.jsoncallback = function(data){
   }
 
 
-/*add the cart and drag methods to argument*/
+//add the cart and drag methods to argument
 var addDrag = function(theListener) {
   theListener.addEvent('mousedown', function(event){
       event.stop();
@@ -145,7 +148,7 @@ var addDrag = function(theListener) {
             device.clone().inject(cart);
           cart.highlight('#7389AE', '#FFF');
 
-          /*This is where the sql update occurs*/
+          //This is where the sql update occurs
           //Check to see if the cart has an item with same img
           }
         },
