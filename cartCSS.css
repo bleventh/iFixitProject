@@ -34,9 +34,11 @@
 	float: right;
 	padding-bottom: 50px;
 	width: 195px;
+	max-height: 500px;
 	position: fixed;
 	top: 10px;
 	right: 10px;
+	overflow-y: scroll;
 }
 	#cart .info {
 		color: #444;

@@ -4,11 +4,35 @@ var scrollSize = 0;
 var limitValue = 70;
 var offsetCount = 0;
 
+
 //Figure out how to set offset inbetween first spyact call and api call
 var offsetMarker = true;
 
-window.addEvent('domready', function(){
-  
+
+function databaseInit(){
+  sqlDB.exec("SELECT * FROM 'gearbag'",checkLoadCart);
+};
+
+function checkLoadCart(transaction, output)
+{
+  if(output === undefined)
+  {
+    startUp();
+  }
+  else
+  {
+    console.log("load the cart");
+    loadCart();
+    startUp();
+  }
+};
+
+function loadCart(){
+  console.log("Do cart loading here.");
+};
+
+function startUp()
+{
   //makes initial JSONP request to the apis
   this.myJSONP();
   
@@ -19,7 +43,9 @@ window.addEvent('domready', function(){
   //makes the page faster because its loading less on each event
   limitValue = 20;
 
-});
+  //console.log(sqlDB);
+}
+
 var spy;
 
 //Creates a new scrolling event and fires when minimum range is met
@@ -50,6 +76,10 @@ var myJSONP = function(){ new Request.JSONP({
         limit: limitValue,
         jsonp: 'jsoncallback'
     },
+    onRequest: function(url)
+    {
+
+    },
     
 
 }).send();
@@ -69,27 +99,13 @@ this.jsoncallback = function(data){
                 jsonp: 'imageCallback'
             },
             onRequest: function(url){
-                // a script tag is created with a src attribute equal to url
-                
-
+                // a script tag is created with a src attribute equal to url  
             },
-            onComplete: function(data){
-                // the request was completed.
-            },
-            onCancel: function()
-            {
-              console.log("error");
-            },
-            onTimeout: function()
-            {
-              console.log("error");
-            }
 
           }).send();
-          //Increments offset
-          
-          
+        
         };
+        //incremenets offset
         if(offsetMarker)
         {
           offsetCount = 70;
@@ -100,7 +116,6 @@ this.jsoncallback = function(data){
           offsetCount += limitValue;
         }
         //Creates new instance of spy with a higher minimum range
-        
         spyAct();
        
       };
@@ -112,18 +127,17 @@ this.jsoncallback = function(data){
       {
         console.log("error");
       }
-      if(data.image.text!= null)
+      if(data.image.text!= undefined)
       {
         //the devices image url
         var aDeviceImage = data.image.text + '.thumbnail';
-
-
+        //console.log(data.topic_info.name);
 
         //adding a new device to the grid
         var anItem = new Element('div');
         $(anItem).set('style', "background-image:url("+ aDeviceImage + ")");
         $(anItem).set('class', 'item');
-
+        //$(anItem).set('innerHTML')
 
         //Come back to this, adds Device name to image
 
@@ -138,7 +152,7 @@ this.jsoncallback = function(data){
 
       }
         
-  }
+  };
 
 
 //add the cart and drag methods to argument
@@ -161,8 +175,9 @@ var addDrag = function(theListener) {
           if(cart != null){
             var gearBagItems = $$(cart).getChildren()[0];
             var deviceInBag = false;
-            
+            //console.log(device.getProperty('style'));
             //Checks if device is already in the bag
+            //Switch this to mootools array iteration 
             for(var i = 0; i < gearBagItems.length; i++)
             {
               if(device.getProperty('style') == gearBagItems[i].getProperty('style'))
@@ -172,10 +187,10 @@ var addDrag = function(theListener) {
             }
             if(!deviceInBag)
               {
-                device.clone().inject(cart);
+                device.clone().inject(cart, 'top');
+                addDeviceToDataBase(device.getProperty('style'));
                 //This is where the sql update occurs
               }  
-            console.log($$(cart).getChildren()[0][1]);
           cart.highlight('#7389AE', '#FFF');
 
           
@@ -194,4 +209,13 @@ var addDrag = function(theListener) {
       });
       drag.start(event);
   });
-}
+};
+
+
+ 
+
+window.addEvent('domready', function(){
+  
+  databaseInit();
+
+});
