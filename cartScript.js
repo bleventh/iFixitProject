@@ -22,13 +22,22 @@ function checkLoadCart(transaction, output)
   else
   {
     console.log("load the cart");
-    loadCart();
+    loadCart(output);
     startUp();
   }
 };
 
-function loadCart(){
+function loadCart(output){
   console.log("Do cart loading here.");
+  for(var i = 0; i < output.rows.length; i++)
+  {
+    console.log(output.rows.item(i).deviceImage);
+    var storedDevice = new Element('div');
+    //setting image back
+    $(storedDevice).set('style', output.rows.item(i).deviceImage);
+    $(storedDevice).set('class', 'item');
+    $(storedDevice).inject($('cart'), 'top');
+  }
 };
 
 function startUp()
@@ -137,6 +146,7 @@ this.jsoncallback = function(data){
         var anItem = new Element('div');
         $(anItem).set('style', "background-image:url("+ aDeviceImage + ")");
         $(anItem).set('class', 'item');
+
         //$(anItem).set('innerHTML')
 
         //Come back to this, adds Device name to image
