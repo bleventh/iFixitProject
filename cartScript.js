@@ -1,5 +1,4 @@
 //For loading more devices from api
-
 var scrollSize = 0;
 var limitValue = 70;
 var offsetCount = 0;
@@ -11,7 +10,6 @@ var offsetMarker = true;
 
 
 function databaseInit(){
-    //sqlDB.exec("SELECT * FROM 'gearbag'",checkLoadCart);
     sqlDB.exec("CREATE TABLE IF NOT EXISTS gearBag( id INTEGER PRIMARY KEY, deviceImage TEXT)", callback);
     sqlDB.findA('gearbag', checkLoadCart);
 };
@@ -25,14 +23,12 @@ function checkLoadCart(transaction, output)
   }
   else
   {
-    console.log("load the cart");
     loadCart(output);
     startUp();
   }
 };
 
 function loadCart(output){
-  console.log("Do cart loading here.");
   for(var i = 0; i < output.rows.length; i++)
   {
     var storedDevice = new Element('div');
@@ -55,7 +51,6 @@ function startUp()
   //makes the page faster because its loading less on each event
   limitValue = 20;
 
-  //console.log(sqlDB);
 }
 
 var spy;
@@ -143,22 +138,13 @@ this.jsoncallback = function(data){
       {
         //the devices image url
         var aDeviceImage = data.image.text + '.thumbnail';
-        //console.log(data.topic_info.name);
+     
 
         //adding a new device to the grid
         var anItem = new Element('div');
         $(anItem).set('style', "background-image:url("+ aDeviceImage + ")");
         $(anItem).set('html', '<span>' + data.topic_info.name + '</span>');
         $(anItem).set('class', 'item');
-
-        //$(anItem).set('innerHTML')
-
-        //Come back to this, adds Device name to image
-
-        //var deviceSpan = new Element('span');
-        //$(deviceSpan).set('text', data.description);
-        //$(deviceSpan).inject('anItem');
-        //console.log(deviceSpan);
 
         //give element drag capability and inject element 
         this.addDrag($(anItem));
@@ -202,8 +188,8 @@ var addDrag = function(theListener) {
             if(!deviceInBag)
               {
                 device.clone().inject(cart, 'top');
-                addDeviceToDataBase(device.getProperty('style'));
                 //This is where the sql update occurs
+                addDeviceToDataBase(device.getProperty('style'));          
               }  
           cart.highlight('#7389AE', '#FFF');
 

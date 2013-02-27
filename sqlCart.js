@@ -14,7 +14,7 @@ var sqlDB = new MooSQL({
 
 //Add events
 sqlDB.addEvent('databaseCreated',function(){
-    //sqlDB.exec("CREATE TABLE gearBag( id INTEGER PRIMARY KEY, deviceImage TEXT)", callback);
+    
     console.log('database is created!!');
 });
 sqlDB.addEvent('databaseReady', function(){
