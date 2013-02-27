@@ -9,12 +9,16 @@ var offsetCount = 0;
 var offsetMarker = true;
 
 
+
 function databaseInit(){
-  sqlDB.exec("SELECT * FROM 'gearbag'",checkLoadCart);
+    //sqlDB.exec("SELECT * FROM 'gearbag'",checkLoadCart);
+    sqlDB.exec("CREATE TABLE IF NOT EXISTS gearBag( id INTEGER PRIMARY KEY, deviceImage TEXT)", callback);
+    sqlDB.findA('gearbag', checkLoadCart);
 };
 
 function checkLoadCart(transaction, output)
 {
+  
   if(output === undefined)
   {
     startUp();
@@ -31,14 +35,13 @@ function loadCart(output){
   console.log("Do cart loading here.");
   for(var i = 0; i < output.rows.length; i++)
   {
-    console.log(output.rows.item(i).deviceImage);
     var storedDevice = new Element('div');
     //setting image back
     $(storedDevice).set('style', output.rows.item(i).deviceImage);
     $(storedDevice).set('class', 'item');
-    $(storedDevice).inject($('cart'), 'top');
+    $(storedDevice).removeEvents().inject($('cart'), 'top');
   }
-};
+}
 
 function startUp()
 {
@@ -145,6 +148,7 @@ this.jsoncallback = function(data){
         //adding a new device to the grid
         var anItem = new Element('div');
         $(anItem).set('style', "background-image:url("+ aDeviceImage + ")");
+        $(anItem).set('html', '<span>' + data.topic_info.name + '</span>');
         $(anItem).set('class', 'item');
 
         //$(anItem).set('innerHTML')
@@ -220,9 +224,6 @@ var addDrag = function(theListener) {
       drag.start(event);
   });
 };
-
-
- 
 
 window.addEvent('domready', function(){
   
