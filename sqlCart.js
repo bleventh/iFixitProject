@@ -21,9 +21,10 @@ sqlDB.addEvent('databaseReady', function(){
   console.log("ready");
 })
 
-function addDeviceToDataBase(deviceImage)
+function addDeviceToDataBase(deviceImage, deviceText)
 {
-  var imageData = {'deviceImage': deviceImage};
+  console.log(deviceText);
+  var imageData = {'deviceImage': deviceImage, 'deviceText': deviceText};
   sqlDB.insert('gearBag', imageData, callback);
 
 };
