@@ -17,6 +17,7 @@
 	margin: 10px;
 	position: relative;
 	width: 120px;
+	top: 30px;
 }
 	.item span {
 		bottom: 0;
@@ -27,6 +28,38 @@
 		text-align: center;
 		width: 100%;
 	}
+.dataBaseItem {
+	background-color: #FFF;
+	background-position: left top;
+	background-repeat: no-repeat;
+	border: 1px solid #EEE;
+	border-bottom: 2px solid #DDD;
+	border-right: 2px solid #DDD;
+	float: left;
+	height: 90px;
+	margin: 10px;
+	position: relative;
+	width: 120px;
+	top: 30px;
+}
+	.dataBaseItem span {
+		bottom: 0;
+		font-size: 8px;
+		font-weight: bold;
+		left: 0;
+		position: absolute;
+		text-align: center;
+		width: 100%;
+	}
+
+
+#cart #title{
+	clear: top;
+	top: 10px;
+	position: fixed;
+	text-align: center;
+	color: red;
+}
 
 #cart {
 	background-color: #CCFFFF;
@@ -36,7 +69,7 @@
 	width: 195px;
 	max-height: 500px;
 	position: fixed;
-	top: 10px;
+	top: 30px;
 	right: 10px;
 	overflow-y: scroll;
 }
