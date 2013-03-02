@@ -10,7 +10,7 @@ var offsetMarker = true;
 
 
 function databaseInit(){
-    sqlDB.exec("CREATE TABLE IF NOT EXISTS gearBag( id INTEGER PRIMARY KEY, deviceImage TEXT)", callback);
+    sqlDB.exec("CREATE TABLE IF NOT EXISTS gearBag( id INTEGER PRIMARY KEY, deviceImage TEXT, deviceText TEXT)", callback);
     sqlDB.findA('gearbag', checkLoadCart);
 };
 
@@ -34,7 +34,8 @@ function loadCart(output){
     var storedDevice = new Element('div');
     //setting image back
     $(storedDevice).set('style', output.rows.item(i).deviceImage);
-    $(storedDevice).set('class', 'item');
+    $(storedDevice).set('html', '<span>' + output.rows.item(i).deviceText + '</span>');
+    $(storedDevice).set('class', 'dataBaseItem');
     $(storedDevice).removeEvents().inject($('cart'), 'top');
   }
 }
@@ -189,7 +190,7 @@ var addDrag = function(theListener) {
               {
                 device.clone().inject(cart, 'top');
                 //This is where the sql update occurs
-                addDeviceToDataBase(device.getProperty('style'));          
+                addDeviceToDataBase(device.getProperty('style'), device.getProperty('html'));          
               }  
           cart.highlight('#7389AE', '#FFF');
 
