@@ -6,13 +6,15 @@ body {
 }
 
 h2{
-	color: red;
+	color: green;
 }
 
 #items {
 	float: left;
 	width: 1000px;
 }
+
+
 
 .item {
 	background-position: left top;
@@ -28,7 +30,8 @@ h2{
 	width: 140px;
 	top: 30px;
 }
-	.item span {
+
+.item span {
 		bottom: 0;
 		font-size: 14px;
 		font-weight: bold;
@@ -37,11 +40,8 @@ h2{
 		text-align: center;
 		width: 100%;
 		color: green;
-	}
-	.item style
-	{
-		
-	}
+}
+
 .dataBaseItem {
 	background-position: left top;
 	background-repeat: no-repeat;
@@ -73,7 +73,7 @@ h2{
 	top: 10px;
 	position: fixed;
 	text-align: center;
-	color: red;
+	color: green;
 }
 
 #cart {
