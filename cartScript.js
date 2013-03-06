@@ -34,7 +34,7 @@ function loadCart(output){
     var storedDevice = new Element('div');
     //setting image back
     $(storedDevice).set('style', output.rows.item(i).deviceImage);
-    $(storedDevice).set('html', '<span>' + output.rows.item(i).deviceText + '</span>');
+    $(storedDevice).set('html',output.rows.item(i).deviceText);
     $(storedDevice).set('class', 'dataBaseItem');
     $(storedDevice).removeEvents().inject($('cart'), 'top');
   }
@@ -140,7 +140,11 @@ this.jsoncallback = function(data){
         //the devices image url
         var aDeviceImage = data.image.text + '.thumbnail';
      
-
+      }
+      else
+      {
+        var aDeviceImage = 'noImageReplace.png';
+      }
         //adding a new device to the grid
         var anItem = new Element('div');
         $(anItem).set('style', "background-image:url("+ aDeviceImage + ")");
@@ -151,7 +155,7 @@ this.jsoncallback = function(data){
         this.addDrag($(anItem));
         $(anItem).inject("items",'bottom');
 
-      }
+      
         
   };
 
@@ -181,7 +185,7 @@ var addDrag = function(theListener) {
             //Switch this to mootools array iteration 
             for(var i = 0; i < gearBagItems.length; i++)
             {
-              if(device.getProperty('style') == gearBagItems[i].getProperty('style'))
+              if(device.getProperty('html') == gearBagItems[i].getProperty('html'))
               {
                 deviceInBag = true;
               }
