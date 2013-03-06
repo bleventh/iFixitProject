@@ -1,55 +1,70 @@
+body {
+	background-image:url('orangeBackground.jpg');
+	background-repeat: no-repeat;
+	background-position: top left;
+	background-attachment: fixed;
+}
+
+h2{
+	color: red;
+}
+
 #items {
 	float: left;
-	border: 1px solid #F9F9F9;
 	width: 1000px;
 }
 
 .item {
-	background-color: #FFF;
 	background-position: left top;
 	background-repeat: no-repeat;
-	border: 1px solid #EEE;
-	border-bottom: 2px solid #DDD;
-	border-right: 2px solid #DDD;
+	border: 1px #EEE;
+	border-bottom: 2px #DDD;
+	border-right: 2px #DDD;
 	cursor: move;
 	float: left;
-	height: 90px;
+	height: 130px;
 	margin: 10px;
 	position: relative;
-	width: 120px;
+	width: 140px;
 	top: 30px;
 }
 	.item span {
 		bottom: 0;
-		font-size: 8px;
+		font-size: 14px;
 		font-weight: bold;
 		left: 0;
 		position: absolute;
 		text-align: center;
 		width: 100%;
+		color: green;
+	}
+	.item style
+	{
+		
 	}
 .dataBaseItem {
-	background-color: #FFF;
 	background-position: left top;
 	background-repeat: no-repeat;
-	border: 1px solid #EEE;
-	border-bottom: 2px solid #DDD;
-	border-right: 2px solid #DDD;
+	border: 1px #EEE;
+	border-bottom: 2px #DDD;
+	border-right: 2px #DDD;
+	cursor: normal;
 	float: left;
-	height: 90px;
+	height: 130px;
 	margin: 10px;
 	position: relative;
-	width: 120px;
+	width: 140px;
 	top: 30px;
 }
 	.dataBaseItem span {
 		bottom: 0;
-		font-size: 8px;
+		font-size: 14px;
 		font-weight: bold;
 		left: 0;
 		position: absolute;
 		text-align: center;
 		width: 100%;
+		color: green;
 	}
 
 
@@ -62,7 +77,7 @@
 }
 
 #cart {
-	background-color: #CCFFFF;
+	background-color: lightgreen;
 	border: 1px solid #F9F9F9;
 	float: right;
 	padding-bottom: 50px;
@@ -80,10 +95,9 @@
 		text-align: center;
 	}
 	#cart .item {
-		background-position: 50% -22px;
 		border-width: 1px;
 		cursor: default;
-		height: 90px;
+		height: 130px;
 		margin: 5px;
 		width: 120px;
 	}
