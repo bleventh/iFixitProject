@@ -8,7 +8,7 @@ var offsetCount = 0;
 var offsetMarker = true;
 
 
-
+//creates database if it does not already exist
 function databaseInit(){
     sqlDB.exec("CREATE TABLE IF NOT EXISTS gearBag( id INTEGER PRIMARY KEY, deviceImage TEXT, deviceText TEXT)", callback);
     sqlDB.findA('gearbag', checkLoadCart);
@@ -32,7 +32,7 @@ function loadCart(output){
   for(var i = 0; i < output.rows.length; i++)
   {
     var storedDevice = new Element('div');
-    //setting image back
+    //setting image back and description
     $(storedDevice).set('style', output.rows.item(i).deviceImage);
     $(storedDevice).set('html',output.rows.item(i).deviceText);
     $(storedDevice).set('class', 'dataBaseItem');
@@ -143,6 +143,7 @@ this.jsoncallback = function(data){
       }
       else
       {
+        //if device does not have image it gives it a standard image
         var aDeviceImage = 'noImageReplace.png';
       }
         //adding a new device to the grid
@@ -180,9 +181,7 @@ var addDrag = function(theListener) {
           if(cart != null){
             var gearBagItems = $$(cart).getChildren()[0];
             var deviceInBag = false;
-            //console.log(device.getProperty('style'));
-            //Checks if device is already in the bag
-            //Switch this to mootools array iteration 
+            //Checks if device is already in bag
             for(var i = 0; i < gearBagItems.length; i++)
             {
               if(device.getProperty('html') == gearBagItems[i].getProperty('html'))
@@ -192,7 +191,7 @@ var addDrag = function(theListener) {
             }
             if(!deviceInBag)
               {
-
+                //gets rid of drag events and injects
                 device.clone().inject(cart, 'top');
                 //This is where the sql update occurs
                 addDeviceToDataBase(device.getProperty('style'), device.getProperty('html'));          
@@ -217,7 +216,7 @@ var addDrag = function(theListener) {
   });
 };
 
-
+//adds full screen
 function toggleFullScreen() {
   if (!document.fullscreenElement &&    // alternative standard method
       !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
@@ -238,7 +237,7 @@ function toggleFullScreen() {
     }
   }
 }
-
+//checks for the enter button pressed to go into fullscreen
 document.addEventListener("keydown", function(e) {
   if (e.keyCode == 13) {
     toggleFullScreen();
